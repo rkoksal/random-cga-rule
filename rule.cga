@@ -1,0 +1,53 @@
+/**
+ * File:    coklumodelleme.cga
+ * Created: 28 Feb 2020 10:54:24 GMT
+ * Author:  Recep
+ */
+
+version "2019.0"
+
+yukseklik = case geometry.area > 1000: rand(50, 200) else: rand(20, 50) 
+attr scale  = rand(0.75, 0.9) 
+attr katyuksekligi = rand(4, 5)
+Lot --> Kule 
+Kule --> extrude(yukseklik) Envelope 
+Envelope --> 
+case geometry.isRectangular(10): 20% :
+ i("builtin:cylinder") cikinti else: cikinti else: cikinti 
+lowHeight = 50%: 0.4 else: 0.6 
+ cikinti --> case scope.sy > 2 * katyuksekligi  : split(y){ 'lowHeight : Mass | ~1: Setback } else: s('1, katyuksekligi, '1) Mass
+ Setback --> s('scale, '1, 'scale) center(xz) 
+ cikinti 
+ Mass-->
+ 
+comp(f){side:cephe | top : cati }
+cephe--> split(x){5: x | ~1 : y | ~1:Z}*
+split(y){5: x | ~1 : y | ~1:Z}*
+y-->
+extrude(4)
+Z-->
+extrude(1)
+x-->
+split(y){1:a |2 : b| 3 :c}
+a-->
+i("builtin:cube")
+s('1,'1,3)
+cati-->
+split(x){1:h|2:y}*
+h-->extrude(1)
+ comp(f){side: hcephe | top : hcati }
+ hcati-->
+ roofGable(64,0.10)
+ hcephe-->
+ split(x){2:i|~1:o}
+ i-->
+ i("builtin:cube")
+ r(120,280,156)
+ b-->
+ i("builtin:cube")
+ s('1,katyuksekligi,3)
+ t(0,10,0)
+
+
+ 
+ 
